@@ -6,13 +6,13 @@ fi
 # Set PATH, MANPATH, etc., for Homebrew.
 eval "$(/opt/homebrew/bin/brew shellenv)"
 # PNPM
-export PNPM_HOME="/Users/kelaita/Library/pnpm"
+export PNPM_HOME="$HOME/Library/pnpm"
 case ":$PATH:" in
   *":$PNPM_HOME:"*) ;;
   *) export PATH="$PNPM_HOME:$PATH" ;;
 esac
 # UV globals
-export PATH="/Users/kelaita/.local/bin:$PATH"
+export PATH="$HOME/.local/bin:$PATH"
 
 
 export EDITOR='vim'

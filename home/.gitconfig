@@ -24,4 +24,4 @@
 	helper = 
 	helper = !/opt/homebrew/bin/gh auth git-credential
 [gpg "ssh"]
-	allowedSignersFile = /Users/kelaita/.config/git/allowed_signers
+	allowedSignersFile = ~/.config/git/allowed_signers
