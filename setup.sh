@@ -65,17 +65,23 @@ fi
 
 echo "== [6/12] agent skills"
 # repo → skill names, from this machine's ~/.agents/.skill-lock.json
+# the skills CLI matches --skill values literally, so comma lists must be split
+# into one --skill flag per name
 while read -r repo names; do
-    pnpm dlx skills add "$repo" -g -y -a '*' --skill "$names" < /dev/null || note_fail "skills: $repo"
+    set --
+    for name in ${names//,/ }; do
+        set -- "$@" --skill "$name"
+    done
+    pnpm dlx skills add "$repo" -g -y -a '*' "$@" < /dev/null || note_fail "skills: $repo"
 done <<'EOF'
 astrolicious/agent-skills astro
-get-convex/agent-skills convex-migration-helper
+get-convex/agent-skills convex-migrate
 github/awesome-copilot create-agentsmd
 mattpocock/skills domain-modeling,grill-with-docs,grilling,to-spec
 vercel-labs/skills find-skills
 anthropics/skills frontend-design
 github/gh-stack gh-stack
-pbakaus/impeccable polish
+pbakaus/impeccable impeccable
 shadcn/ui shadcn
 nomideusz/simple-web-design simple-web-design
 hardikpandya/stop-slop stop-slop
