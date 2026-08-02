@@ -48,7 +48,6 @@ echo "== [4/12] runtimes"
 curl -fsSL https://viteplus.dev/install.sh | sh || note_fail "vite-plus"
 curl -fsSL https://bun.sh/install | bash || note_fail "bun"
 curl -fsSL https://cursor.com/install | bash || note_fail "cursor-agent"
-curl -fsSL https://paperclip.gxl.ai/install.sh | bash || note_fail "paperclip"
 
 echo "== [5/12] globals + cursor extensions"
 pnpm add -g sst tsx typescript || note_fail "pnpm globals"
@@ -83,8 +82,6 @@ hardikpandya/stop-slop stop-slop
 vercel/turborepo turborepo
 vercel-labs/agent-skills vercel-react-best-practices
 EOF
-# paperclip's skill ships with its CLI, not a skills-add repo
-paperclip install < /dev/null || note_fail "paperclip skill (run: paperclip install)"
 # the repo's own dx skill: symlink into the global skills dir + each agent's dir
 mkdir -p "$HOME/.agents/skills" "$HOME/.claude/skills" "$HOME/.codex/skills" "$HOME/.cursor/skills"
 ln -sfn "$REPO_DIR/skills/dx" "$HOME/.agents/skills/dx"
