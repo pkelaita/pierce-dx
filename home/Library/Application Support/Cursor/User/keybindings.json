@@ -1,0 +1,114 @@
+// Place your key bindings in this file to override the defaults
+[
+    { "key": "cmd+1", "command": "workbench.action.openEditorAtIndex1" },
+    { "key": "cmd+2", "command": "workbench.action.openEditorAtIndex2" },
+    { "key": "cmd+3", "command": "workbench.action.openEditorAtIndex3" },
+    { "key": "cmd+4", "command": "workbench.action.openEditorAtIndex4" },
+    { "key": "cmd+5", "command": "workbench.action.openEditorAtIndex5" },
+    { "key": "cmd+6", "command": "workbench.action.openEditorAtIndex6" },
+    { "key": "cmd+7", "command": "workbench.action.openEditorAtIndex7" },
+    { "key": "cmd+8", "command": "workbench.action.openEditorAtIndex8" },
+    {
+      "key": "cmd+9",
+      "command": "workbench.action.openEditorAtIndex9"
+    },
+    {
+      "key": "alt+cmd+/",
+      "command": "workbench.explorer.openEditorsView.toggleVisibility"
+    },
+    {
+      "key": "alt+cmd+up",
+      "command": "-editor.action.insertCursorAbove",
+      "when": "editorTextFocus"
+    },
+    {
+      "key": "alt+cmd+down",
+      "command": "-editor.action.insertCursorBelow",
+      "when": "editorTextFocus"
+    },
+    {
+      "key": "alt+cmd+down",
+      "command": "workbench.action.nextEditor"
+    },
+    {
+      "key": "alt+cmd+right",
+      "command": "-workbench.action.nextEditor"
+    },
+    {
+      "key": "alt+cmd+up",
+      "command": "workbench.action.previousEditor"
+    },
+    {
+      "key": "alt+cmd+left",
+      "command": "-workbench.action.previousEditor"
+    },
+    {
+      "key": "alt+cmd+\\",
+      "command": "workbench.files.action.collapseExplorerFolders"
+    },
+    {
+      "key": "alt+cmd+right",
+      "command": "workbench.action.focusNextGroup"
+    },
+    {
+      "key": "alt+cmd+right",
+      "command": "-workbench.action.terminal.focusNextPane",
+      "when": "terminalFocus && terminalHasBeenCreated || terminalFocus && terminalProcessSupported"
+    },
+    {
+      "key": "alt+cmd+left",
+      "command": "workbench.action.focusPreviousGroup"
+    },
+    {
+      "key": "alt+cmd+left",
+      "command": "-workbench.action.terminal.focusPreviousPane",
+      "when": "terminalFocus && terminalHasBeenCreated || terminalFocus && terminalProcessSupported"
+    },
+    {
+      "key": "alt+cmd+g",
+      "command": "explorer-gitignore.toggle"
+    },
+    {
+      "key": "ctrl+shift+=",
+      "command": "markdown-preview-enhanced.openPreviewToTheSide",
+      "when": "editorLangId == 'markdown'"
+    },
+    {
+      "key": "cmd+k v",
+      "command": "-markdown-preview-enhanced.openPreviewToTheSide",
+      "when": "editorLangId == 'markdown'"
+    },
+    {
+      "key": "shift+cmd+. shift+cmd+s",
+      "command": "cSpell.toggleEnableSpellChecker"
+    },
+    {
+      "key": "shift+cmd+;",
+      "command": "editor.action.deleteLines",
+      "when": "textInputFocus && !editorReadonly"
+    },
+    {
+      "key": "shift+cmd+k",
+      "command": "-editor.action.deleteLines",
+      "when": "textInputFocus && !editorReadonly"
+    },
+    {
+      "key": "cmd+d cmd+right",
+      "command": "workbench.action.splitEditorRight"
+    },
+    {
+      "key": "cmd+r cmd+\\",
+      "command": "-workbench.action.splitEditorRight"
+    },
+    {
+      "key": "cmd+i",
+      "command": "composerMode.agent"
+    }
+  ]
+  
+  
+  
+  
+  
+  
+  

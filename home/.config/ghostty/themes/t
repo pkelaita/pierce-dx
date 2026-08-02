@@ -1,0 +1,34 @@
+#!/bin/bash
+
+# Script to update the theme value in ~/.config/ghostty/config
+if [[ $# -lt 1 ]]; then
+    echo "Usage: $0 <new_theme_name>"
+    exit 1
+fi
+
+# Combine all arguments into a single string for the theme name
+input_string="$*"
+config_file="$HOME/.config/ghostty/config"
+
+# Check if the config file exists
+if [[ ! -f "$config_file" ]]; then
+    echo "Error: Config file '$config_file' does not exist."
+    exit 1
+fi
+
+# Use sed to replace the theme value
+sed -i '' -E "/^theme = / s/(^theme = ).*/\1${input_string}/" "$config_file"
+
+if [[ $? -eq 0 ]]; then
+    echo "Theme updated successfully to '$input_string'."
+else
+    echo "Error: Failed to update the theme."
+    exit 1
+fi
+
+
+
+
+
+
+

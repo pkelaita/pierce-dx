@@ -1,0 +1,8 @@
+// Settings in here override those in "Default/Preferences.sublime-settings",
+// and are overridden in turn by syntax-specific settings.
+{
+    "class": "panel_button_control",
+    "layer0.texture": "Theme - Retina/panels.png",
+    "show_core_legacy_color_schemes": true,
+    "font_size": 11,
+}
