@@ -51,7 +51,6 @@ curl -fsSL https://cursor.com/install | bash || note_fail "cursor-agent"
 
 echo "== [5/12] globals + cursor extensions"
 pnpm add -g sst tsx typescript || note_fail "pnpm globals"
-uv tool install pdfsplitter || note_fail "uv: pdfsplitter"
 uv tool install tox || note_fail "uv: tox"
 gh extension list 2>/dev/null | grep -q "github/gh-stack" || gh extension install github/gh-stack || note_fail "gh-stack extension"
 if command -v cursor >/dev/null 2>&1; then
