@@ -41,7 +41,7 @@ One key does both auth and commit signing. The applied `~/.ssh/config` routes gi
 
 `setup.sh` installs no GUI apps (MonitorControl excepted). Install these yourself:
 
-- **cmux** — prefer `brew install --cask cmux` so daily-up's `brew upgrade cmux` works (any install method is fine; that update entry then fails harmlessly)
+- **cmux** — prefer `brew install --cask cmux` so daily-up's `brew upgrade cmux` works (any install method is fine; that update entry then fails harmlessly); keyboard shortcuts are applied via `home/.config/cmux/cmux.json`
 - **Ghostty**, **Cursor**, **Sublime Text** — configs for all three are applied by setup
 - **Karabiner-Elements** — required for the applied `karabiner.json` remaps
 - **Zen**, **1Password**, **CodexBar**, **supacode**

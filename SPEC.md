@@ -154,7 +154,7 @@ Human-readable, not verbose. Sections: what this is + annotated repo tree; **Boo
 - GUI app installation (except MonitorControl) — manual README list instead. No Maccy/Raycast settings, no general macOS defaults, no Zed, no gcloud, no postgres, no worktrunk.
 - SSH key generation/upload; moving private keys between machines; 1Password vault contents.
 - Claude Code machine state: memory dir, history, sessions, settings.local.json, `~/.claude.json`.
-- cmux config (live files are untouched all-commented templates; real prefs are in-app).
+- cmux config beyond keyboard shortcuts (shortcuts are file-managed via `home/.config/cmux/cmux.json`; all other cmux prefs stay in-app).
 - Deleting/archiving the remote `pkelaita/configs` repo (manual).
 - Multi-user/multi-shell (zsh) support — bash on macOS, user kelaita-shaped machines only.
 

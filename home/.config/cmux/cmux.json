@@ -1,0 +1,18 @@
+{
+  "$schema": "https://raw.githubusercontent.com/manaflow-ai/cmux/main/web/data/cmux.schema.json",
+  "schemaVersion": 1,
+
+  "shortcuts": {
+    "bindings": {
+      "focusDown": "cmd+shift+↓",
+      "focusUp": "cmd+shift+↑",
+      "nextSidebarTab": "cmd+opt+↓",
+      "nextSurface": "cmd+→",
+      "prevSidebarTab": "cmd+opt+↑",
+      "prevSurface": "cmd+←",
+      "selectSurfaceByNumber": "cmd+1",
+      "selectWorkspaceByNumber": "ctrl+1",
+      "toggleSidebar": "cmd+e"
+    }
+  }
+}
