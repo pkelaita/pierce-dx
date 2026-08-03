@@ -8,7 +8,7 @@ IDENTICAL=0
 while IFS= read -r -d '' src; do
     rel="${src#"$REPO_DIR"/home/}"
     case "$rel" in
-        .aws/config|.codex/config.toml)
+        .codex/config.toml)
             echo "ignored (machine-local): $rel"
             continue ;;
     esac
