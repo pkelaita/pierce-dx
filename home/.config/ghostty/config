@@ -1,6 +1,7 @@
 font-size = 10
 font-family = "Monaco"
 font-feature = -liga
+cursor-style = block
 
 # window-height = 64
 # window-width = 201
@@ -9,7 +10,7 @@ window-padding-color = background
 macos-titlebar-style = tabs
 confirm-close-surface = false
 shell-integration = detect
-shell-integration-features = title
+shell-integration-features = no-cursor,title
 # macos-icon = custom-style
 # macos-icon-ghost-color = #5BA8A1
 # macos-icon-screen-color = #001015
