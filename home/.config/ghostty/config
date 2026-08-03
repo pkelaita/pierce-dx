@@ -17,8 +17,8 @@ shell-integration-features = no-cursor,title
 # macos-icon-frame = chrome
 
 # Keybindings
-# keybind = super+right=next_tab
-# keybind = super+left=previous_tab
+keybind = super+right=next_tab
+keybind = super+left=previous_tab
 # keybind = shift+super+p=toggle_quick_terminal
 
 # For cmux compat
