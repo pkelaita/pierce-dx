@@ -37,7 +37,7 @@ A private GitHub repo, `pkelaita/pierce-dx`, checked out at the fixed path `~/pi
 17. As Pierce, I want my daily-up auto-updater (script + updates.conf + 9:00 AM LaunchAgent) installed and loaded, so that my AI CLIs and skills stay current automatically.
 18. As Pierce, I want setup to *check* for a usable git SSH key and point me at README docs if absent (never generate or upload keys), so that key management stays deliberate and manual.
 19. As Pierce, I want `~/.config/git/allowed_signers` generated from whatever pubkey exists on the machine, so that commit-signature verification works per-machine without vendoring key material.
-20. As Pierce, I want `.aws/config` and `.codex/config.toml` applied normally by setup but ignored by `diff.sh`, so that machine-local content (work AWS profiles here, codex trust tables everywhere) never pollutes the repo via capture.
+20. As Pierce, I want `.codex/config.toml` applied normally by setup but ignored by `diff.sh`, so that machine-local content (codex trust tables) never pollutes the repo via capture. `~/.aws/config` is not vendored at all — it stays entirely machine-local and is managed manually.
 21. As Pierce, I want a summary at the end of setup (installed / overwritten+backup path / skipped / remaining manual steps), so that I know exactly what happened and what's left.
 22. As an agent (Claude, Codex, cursor-agent, or any other), I want a single concise `AGENTS.md` defining the repo, the mirror convention, and the four workflows, so that I can operate the repo without bloating my context.
 23. As Claude specifically, I want `CLAUDE.md` to contain exactly `@AGENTS.md` and nothing else, so that there is one agent doc, not two.
@@ -68,7 +68,6 @@ A private GitHub repo, `pkelaita/pierce-dx`, checked out at the fixed path `~/pi
 | `home/.bash_profile` | `~/.bash_profile` | cleaned — see ledger |
 | `home/.gitconfig` | `~/.gitconfig` | as-is (signingkey path `~/.ssh/id_ed25519.pub` is machine-portable) |
 | `home/.ssh/config` | `~/.ssh/config` | github.com via ssh.github.com:443 |
-| `home/.aws/config` | `~/.aws/config` | KEEP: default, dm-admin, dm-sso, personal-admin, personal-sso. DROP: sls-admin, sls-sso, sls-agent, sls-agent-source, mcc-admin, mcc-sso, dm-bed-temp |
 | `home/.config/ghostty/config` | same | as-is |
 | `home/.config/ghostty/themes/Pierce-Special-1` | same | custom theme |
 | `home/.config/ghostty/themes/t` | same | Pierce's theme-switcher script — keep, he uses it |
@@ -106,11 +105,11 @@ MonitorControl prefs: export this machine's defaults domain (find exact bundle i
 
 ### `diff.sh`
 
-- Read-only, no flags. Walks `home/`, compares each file to its `$HOME` counterpart: `modified: <path>` (differs), `missing: <path>` (absent live), and a final count of identical files. Ignores exactly `.aws/config` and `.codex/config.toml` → reported as `ignored (machine-local): <path>`. Exit 0 always (or nonzero on drift — implementer's choice; keep agent-friendly).
+- Read-only, no flags. Walks `home/`, compares each file to its `$HOME` counterpart: `modified: <path>` (differs), `missing: <path>` (absent live), and a final count of identical files. Ignores exactly `.codex/config.toml` → reported as `ignored (machine-local): <path>`. Exit 0 always (or nonzero on drift — implementer's choice; keep agent-friendly).
 
 ### Agent layer
 
-- `AGENTS.md` ≤ ~40 lines. Contents: what the repo is (2 sentences); the `home/` mirror convention; the two scripts; four workflows — **capture** (diff.sh → copy drifted files into `home/` → review diff → commit+push), **apply** (git pull → `./setup.sh --yes`), **extend** (new file into `home/` at its real path, or new install command into the right setup.sh section; then apply + capture + push), **discover** (audit surfaces: `brew leaves` vs setup.sh list, `pnpm ls -g`, `uv tool list`, `gh extension list`, skills list, `~/scripts` contents, new aliases/PATH lines in live shell files, config files in known locations not yet mirrored; propose candidates individually for y/n; wire accepted ones via extend); hard rules — two-tier asset model (first-party vendored / third-party install-latest), never capture `.aws/config` or `.codex/config.toml`, no `~/projects` or work artifacts (zero openlattice traces), no GUI apps except MonitorControl, previously rejected: gcloud, postgres, worktrunk, zed, Maccy/Raycast settings, macOS defaults, casks-as-GUI-apps.
+- `AGENTS.md` ≤ ~40 lines. Contents: what the repo is (2 sentences); the `home/` mirror convention; the two scripts; four workflows — **capture** (diff.sh → copy drifted files into `home/` → review diff → commit+push), **apply** (git pull → `./setup.sh --yes`), **extend** (new file into `home/` at its real path, or new install command into the right setup.sh section; then apply + capture + push), **discover** (audit surfaces: `brew leaves` vs setup.sh list, `pnpm ls -g`, `uv tool list`, `gh extension list`, skills list, `~/scripts` contents, new aliases/PATH lines in live shell files, config files in known locations not yet mirrored; propose candidates individually for y/n; wire accepted ones via extend); hard rules — two-tier asset model (first-party vendored / third-party install-latest), `~/.aws/config` never vendored (machine-local), never capture `.codex/config.toml`, no `~/projects` or work artifacts (zero openlattice traces), no GUI apps except MonitorControl, previously rejected: gcloud, postgres, worktrunk, zed, Maccy/Raycast settings, macOS defaults, casks-as-GUI-apps.
 - `CLAUDE.md`: exactly `@AGENTS.md`.
 - `skills/dx/SKILL.md` (~10 lines): triggers on "dx repo", "sync my dx", "my dev setup", etc.; instructs: cd `~/pierce-dx`, read AGENTS.md, execute the matching workflow. Agent-agnostic wording.
 
@@ -160,7 +159,7 @@ Human-readable, not verbose. Sections: what this is + annotated repo tree; **Boo
 
 ## Further Notes
 
-- **No credentials need committing.** The repo is private regardless. `.aws/config` contains account IDs/SSO URLs (fine, private). Auth flows: gh (`gh auth login`), claude/codex/cursor-agent (each tool's login), AWS SSO (`aws sso login` per profile) — all manual, noted in README.
+- **No credentials need committing.** The repo is private regardless. `~/.aws/config` is machine-local and never vendored. Auth flows: gh (`gh auth login`), claude/codex/cursor-agent (each tool's login), AWS SSO (`aws sso login` per profile) — all manual, noted in README.
 - Verified facts worth trusting: login shell is stock `/bin/bash` 3.2.57 (scripts must be 3.2-compatible); node/npm come entirely from vite-plus (v24.x); `jq` is macOS-builtin now (gpr alias fine); `op` currently NOT installed; Zed installed but explicitly excluded; skills CLI help verified (`add`, `ls`, `update`, `-g/-a/-s/-y`, `--copy`).
 - `daily-up` stays as-is functionally (parallel runner + conf). Its log files stay out of the repo (only `daily-up.sh` + `updates.conf` are vendored).
 - Ghostty config keeps the cmd+option+arrow unbinds (cmux compat) and `theme = Pierce-Special-1`.

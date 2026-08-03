@@ -21,7 +21,7 @@ Single source of truth for Pierce's dev experience, checked out at `~/pierce-dx`
 ## Hard rules
 
 - Two-tier model: first-party files are vendored in `home/`; third-party tools are installed-latest-by-command, never vendored (pkelaita's own GitHub repos count as third-party).
-- Never capture `.aws/config` or `.codex/config.toml` into the repo — machine-local; `diff.sh` ignores them.
+- `~/.aws/config` is machine-local and never vendored — the repo contains no AWS config. Never capture `.codex/config.toml` into the repo — machine-local; `diff.sh` ignores it.
 - Nothing from `~/projects` or work artifacts. Zero openlattice traces.
 - No GUI apps except MonitorControl.
 - Rejected — do not re-propose: gcloud, postgres, worktrunk, zed, Maccy/Raycast settings, macOS defaults, GUI casks.
