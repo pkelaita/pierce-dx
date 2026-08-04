@@ -124,6 +124,7 @@ alias fav='. ~/scripts/fav/fav.sh'
 alias ccp='bash ~/scripts/cc-account-switcher/ccswitch.sh'
 alias ccl="ccp --list"
 alias ccs="ccp --switch-to"
+alias mclear='bash ~/scripts/mclear/mclear.sh' # close idle macterm tabs
 
 # Misc
 alias path="sed 's/:/\n/g' <<< \"$PATH\""
