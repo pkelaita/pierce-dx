@@ -10,6 +10,11 @@ Pierce's dev experience — shell, scripts, terminal, editors, keyboard, AI tool
 ├── diff.sh                 # read-only drift report, home/ vs $HOME
 ├── cursor-extensions.txt   # Cursor extension ids, one per line
 ├── monitorcontrol.plist    # MonitorControl prefs (imported by setup.sh)
+├── rectangle-pro-shortcuts.conf
+│                           # readable Rectangle Pro action → shortcut mappings
+├── scripts/
+│   └── apply-rectangle-pro-shortcuts.sh
+│                           # applies Rectangle Pro shortcuts without full setup
 ├── skills/dx/              # global agent skill routing "sync my dx" here
 └── home/                   # mirrors $HOME path-for-path — the tree IS the mapping
 ```
@@ -44,6 +49,7 @@ One key does both auth and commit signing. The applied `~/.ssh/config` routes gi
 - **cmux** — prefer `brew install --cask cmux` so daily-up's `brew upgrade cmux` works (any install method is fine; that update entry then fails harmlessly); keyboard shortcuts are applied via `home/.config/cmux/cmux.json`
 - **Ghostty**, **Cursor**, **Sublime Text** — configs for all three are applied by setup
 - **Karabiner-Elements** — required for the applied `karabiner.json` remaps
+- **Rectangle Pro** — shortcuts live in `rectangle-pro-shortcuts.conf`; run `./scripts/apply-rectangle-pro-shortcuts.sh` after editing (it restarts Rectangle Pro if needed)
 - **Zen**, **1Password**, **CodexBar**, **supacode**
 - **Raycast** — settings don't sync (encrypted); export/import manually
 - **Maccy** — configure in-app
