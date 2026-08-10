@@ -47,6 +47,7 @@ One key does both auth and commit signing. The applied `~/.ssh/config` routes gi
 `setup.sh` installs no GUI apps (MonitorControl excepted). Install these yourself:
 
 - **cmux** — prefer `brew install --cask cmux` so daily-up's `brew upgrade cmux` works (any install method is fine; that update entry then fails harmlessly); keyboard shortcuts are applied via `home/.config/cmux/cmux.json`
+- **T3 Code** — install the stable or nightly DMG; daily-up updates whichever channel is installed, and keybindings are applied from `home/.t3/userdata/keybindings.json`
 - **Ghostty**, **Cursor**, **Sublime Text** — configs for all three are applied by setup
 - **Karabiner-Elements** — required for the applied `karabiner.json` remaps
 - **Rectangle Pro** — shortcuts live in `rectangle-pro-shortcuts.conf`; run `./scripts/apply-rectangle-pro-shortcuts.sh` after editing (it restarts Rectangle Pro if needed)
