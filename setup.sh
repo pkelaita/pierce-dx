@@ -98,12 +98,16 @@ hardikpandya/stop-slop stop-slop
 vercel/turborepo turborepo
 vercel-labs/agent-skills vercel-react-best-practices
 EOF
-# the repo's own dx skill: symlink into the global skills dir + each agent's dir
+# repo-owned skills: symlink into the global skills dir + each agent's dir
 mkdir -p "$HOME/.agents/skills" "$HOME/.claude/skills" "$HOME/.codex/skills" "$HOME/.cursor/skills"
-ln -sfn "$REPO_DIR/skills/dx" "$HOME/.agents/skills/dx"
-ln -sfn "$HOME/.agents/skills/dx" "$HOME/.claude/skills/dx"
-ln -sfn "$HOME/.agents/skills/dx" "$HOME/.codex/skills/dx"
-ln -sfn "$HOME/.agents/skills/dx" "$HOME/.cursor/skills/dx"
+for skill_dir in "$REPO_DIR"/skills/*; do
+    [ -d "$skill_dir" ] || continue
+    skill_name=$(basename "$skill_dir")
+    ln -sfn "$skill_dir" "$HOME/.agents/skills/$skill_name"
+    ln -sfn "$HOME/.agents/skills/$skill_name" "$HOME/.claude/skills/$skill_name"
+    ln -sfn "$HOME/.agents/skills/$skill_name" "$HOME/.codex/skills/$skill_name"
+    ln -sfn "$HOME/.agents/skills/$skill_name" "$HOME/.cursor/skills/$skill_name"
+done
 
 echo "== [8/14] config files (home/ → \$HOME)"
 while IFS= read -r -d '' src; do

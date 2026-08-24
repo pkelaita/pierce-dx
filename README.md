@@ -15,7 +15,7 @@ Pierce's dev experience — shell, scripts, terminal, editors, keyboard, AI tool
 ├── scripts/
 │   └── apply-rectangle-pro-shortcuts.sh
 │                           # applies Rectangle Pro shortcuts without full setup
-├── skills/dx/              # global agent skill routing "sync my dx" here
+├── skills/                 # first-party agent skills, installed by setup.sh
 └── home/                   # mirrors $HOME path-for-path — the tree IS the mapping
 ```
 
