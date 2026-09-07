@@ -128,6 +128,7 @@ alias mclear='bash ~/scripts/mclear/mclear.sh' # close idle macterm tabs
 
 # Misc
 alias path="sed 's/:/\n/g' <<< \"$PATH\""
+alias pw8='LC_ALL=C tr -dc "a-z0-9" < /dev/urandom | head -c 8 | sed "s/^\(....\)\(....\)$/\1-\2/" | tee >(tr -d "\n" | pbcopy)'
 alias rm='rm -i' # protect from accidental deletion
 alias clearcache='read -p "Confirm (y/n): " confirm && [ "$confirm" = "y" ] && sudo rm -rf ~/Library/Caches/* /Library/Caches/*'
 alias ttr="tput rmam" # disable auto-margins
