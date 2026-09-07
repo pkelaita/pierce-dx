@@ -86,7 +86,6 @@ alias gpp='f() {
 # Cmux
 alias cn='cmux new-workspace --cwd "$(pwdd)"'
 alias cnn="cmux new-workspace --cwd"
-
 # Python
 alias ve="source .venv/bin/activate"
 alias vv="uv venv"
@@ -142,6 +141,7 @@ alias lc="fd --type f -i \
   . | xargs wc -l"
 alias ppr="gc main && gpu && gbc"
 alias t="task"
+alias nq="networkquality"
 
 # Copies the output of $0, or of the previous command if not given
 yank() {
