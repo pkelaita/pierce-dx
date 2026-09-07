@@ -10,7 +10,7 @@ Single source of truth for Pierce's dev experience, checked out at `~/pierce-dx`
 
 ## Workflows
 
-**capture** — `./diff.sh`; for each drifted file `cp "$HOME/<path>" home/<path>`; review `git diff`; commit + push.
+**capture** — `./diff.sh`; copy each drifted live file into `home/`, then replace machine-specific home paths with literal `$HOME`; review `git diff`; commit + push.
 
 **apply** — `git pull && ./setup.sh --yes`.
 
@@ -21,6 +21,7 @@ Single source of truth for Pierce's dev experience, checked out at `~/pierce-dx`
 ## Hard rules
 
 - Two-tier model: first-party files are vendored in `home/`; third-party tools are installed-latest-by-command, never vendored (pkelaita's own GitHub repos count as third-party).
+- Keep home paths portable in the repo using literal `$HOME`. Live configs may require the expanded absolute home path; preserve that form where the application does not expand `$HOME`, and expand repo placeholders when applying those configs. This representation difference is expected, not drift. Normalize home paths before comparing or reporting drift; never capture an expanded machine path over a repo placeholder.
 - `~/.aws/config` is machine-local and never vendored — the repo contains no AWS config. Never capture `.codex/config.toml` into the repo — machine-local; `diff.sh` ignores it.
 - Nothing from `~/projects` or work artifacts. Zero openlattice traces.
 - No GUI app installs except MonitorControl.
