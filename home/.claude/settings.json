@@ -3,7 +3,7 @@
     "commit": "",
     "pr": ""
   },
-  "model": "claude-fable-5[1m]",
+  "model": "fable[1m]",
   "enabledPlugins": {
     "academic-research-skills@academic-research-skills": true
   },
@@ -16,6 +16,7 @@
     }
   },
   "effortLevel": "high",
+  "autoMemoryEnabled": false,
   "tui": "fullscreen",
   "skipDangerousModePermissionPrompt": true,
   "agentPushNotifEnabled": true
