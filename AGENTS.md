@@ -22,6 +22,7 @@ Single source of truth for Pierce's dev experience, checked out at `~/pierce-dx`
 
 - Two-tier model: first-party files are vendored in `home/`; third-party tools are installed-latest-by-command, never vendored (pkelaita's own GitHub repos count as third-party).
 - Keep home paths portable in the repo using literal `$HOME`. Live configs may require the expanded absolute home path; preserve that form where the application does not expand `$HOME`, and expand repo placeholders when applying those configs. This representation difference is expected, not drift. Normalize home paths before comparing or reporting drift; never capture an expanded machine path over a repo placeholder.
+- Track and sync T3 Code's `.t3/userdata/{client-settings,desktop-settings,settings,keybindings}.json` through `home/`. Check these files during capture, apply, and drift review. Keep credentials, tokens, secrets, databases, sessions, logs, attachments, caches, and runtime metadata machine-local; inspect settings for credentials and machine paths before capture.
 - `~/.aws/config` is machine-local and never vendored — the repo contains no AWS config. Never capture `.codex/config.toml` into the repo — machine-local; `diff.sh` ignores it.
 - Nothing from `~/projects` or work artifacts. Zero openlattice traces.
 - No GUI app installs except MonitorControl.
