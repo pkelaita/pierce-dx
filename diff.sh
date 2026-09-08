@@ -15,7 +15,7 @@ while IFS= read -r -d '' src; do
     dest="$HOME/$rel"
     if [ ! -f "$dest" ]; then
         echo "missing: $rel"
-    elif cmp -s "$src" "$dest"; then
+    elif cmp -s "$src" "$dest" || cmp -s "$src" <(perl -pe 's/\Q$ENV{HOME}\E/\$HOME/g' "$dest"); then
         IDENTICAL=$((IDENTICAL + 1))
     else
         echo "modified: $rel"
