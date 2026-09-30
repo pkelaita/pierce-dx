@@ -53,6 +53,8 @@ fi
 
 echo "== [4/14] brew casks (CLI tools + MonitorControl)"
 brew install --cask claude-code@latest codex 1password-cli || note_fail "brew casks"
+# Gatekeeper can't verify codex's notarization and offers to trash it on every run
+xattr -dr com.apple.quarantine "$(brew --prefix)/Caskroom/codex" 2>/dev/null
 brew install --cask --adopt monitorcontrol || note_fail "monitorcontrol cask"
 
 echo "== [5/14] runtimes"
@@ -61,8 +63,13 @@ curl -fsSL https://bun.sh/install | bash || note_fail "bun"
 curl -fsSL https://cursor.com/install | bash || note_fail "cursor-agent"
 
 echo "== [6/14] globals + cursor extensions"
+# matches .bash_profile, which isn't applied until step 8
+export PNPM_HOME="$HOME/Library/pnpm"
+export PATH="$PNPM_HOME/bin:$PATH"
 pnpm add -g sst tsx typescript || note_fail "pnpm globals"
 uv tool install tox || note_fail "uv: tox"
+# Cursor's python.defaultInterpreterPath points at ~/.local/bin/python3.14
+uv python install 3.14 --default || note_fail "uv: python 3.14"
 gh extension list 2>/dev/null | grep -q "github/gh-stack" || gh extension install github/gh-stack || note_fail "gh-stack extension"
 if command -v cursor >/dev/null 2>&1; then
     while IFS= read -r ext; do
@@ -110,9 +117,22 @@ for skill_dir in "$REPO_DIR"/skills/*; do
 done
 
 echo "== [8/14] config files (home/ → \$HOME)"
+# plist/json readers don't expand $HOME, so those files get the placeholder
+# rendered to this machine's home path; shell files keep it literal
+RENDER_DIR=$(mktemp -d)
 while IFS= read -r -d '' src; do
     rel="${src#"$REPO_DIR"/home/}"
     dest="$HOME/$rel"
+    case "$rel" in
+        *.plist|*.json)
+            if grep -qF '$HOME' "$src"; then
+                rendered="$RENDER_DIR/$rel"
+                mkdir -p "$(dirname "$rendered")"
+                perl -pe 's/\$HOME/$ENV{HOME}/g' "$src" > "$rendered"
+                touch -r "$src" "$rendered"
+                src="$rendered"
+            fi ;;
+    esac
     if [ -f "$dest" ] && cmp -s "$src" "$dest"; then
         IDENTICAL=$((IDENTICAL + 1))
     elif [ ! -e "$dest" ]; then
@@ -139,6 +159,7 @@ while IFS= read -r -d '' src; do
         fi
     fi
 done < <(find "$REPO_DIR/home" -type f ! -name '.DS_Store' -print0 | sort -z)
+rm -rf "$RENDER_DIR"
 
 echo "== [9/14] script clones (~/scripts)"
 clone_or_pull() {
@@ -150,6 +171,9 @@ clone_or_pull() {
     fi
 }
 mkdir -p "$HOME/scripts"
+# the applied ~/.ssh/config routes github.com via ssh.github.com:443, whose host
+# key preflight (run before configs were applied) never recorded
+ssh -o BatchMode=yes -o StrictHostKeyChecking=accept-new -T git@github.com >/dev/null 2>&1
 clone_or_pull git@github.com:pkelaita/awsp.git "$HOME/scripts/awsp"
 clone_or_pull git@github.com:pkelaita/fav.git "$HOME/scripts/fav"
 clone_or_pull git@github.com:ming86/cc-account-switcher.git "$HOME/scripts/cc-account-switcher"

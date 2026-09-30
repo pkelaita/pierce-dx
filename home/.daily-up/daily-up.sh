@@ -10,7 +10,7 @@ log() {
   echo "$*" | tee -a "$LOGFILE"
 }
 
-export PATH="/opt/homebrew/bin:/Users/kelaita/Library/pnpm:$PATH"
+export PATH="/opt/homebrew/bin:$HOME/Library/pnpm/bin:$PATH"
 
 log "Starting daily update"
 
