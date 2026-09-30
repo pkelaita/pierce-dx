@@ -68,6 +68,8 @@ export PNPM_HOME="$HOME/Library/pnpm"
 export PATH="$PNPM_HOME/bin:$PATH"
 pnpm add -g sst tsx typescript || note_fail "pnpm globals"
 uv tool install tox || note_fail "uv: tox"
+# Cursor's python.defaultInterpreterPath points at ~/.local/bin/python3.14
+uv python install 3.14 --default || note_fail "uv: python 3.14"
 gh extension list 2>/dev/null | grep -q "github/gh-stack" || gh extension install github/gh-stack || note_fail "gh-stack extension"
 if command -v cursor >/dev/null 2>&1; then
     while IFS= read -r ext; do
