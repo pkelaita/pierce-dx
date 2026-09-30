@@ -164,6 +164,9 @@ clone_or_pull() {
     fi
 }
 mkdir -p "$HOME/scripts"
+# the applied ~/.ssh/config routes github.com via ssh.github.com:443, whose host
+# key preflight (run before configs were applied) never recorded
+ssh -o BatchMode=yes -o StrictHostKeyChecking=accept-new -T git@github.com >/dev/null 2>&1
 clone_or_pull git@github.com:pkelaita/awsp.git "$HOME/scripts/awsp"
 clone_or_pull git@github.com:pkelaita/fav.git "$HOME/scripts/fav"
 clone_or_pull git@github.com:ming86/cc-account-switcher.git "$HOME/scripts/cc-account-switcher"
