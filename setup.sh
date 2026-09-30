@@ -53,6 +53,8 @@ fi
 
 echo "== [4/14] brew casks (CLI tools + MonitorControl)"
 brew install --cask claude-code@latest codex 1password-cli || note_fail "brew casks"
+# Gatekeeper can't verify codex's notarization and offers to trash it on every run
+xattr -dr com.apple.quarantine "$(brew --prefix)/Caskroom/codex" 2>/dev/null
 brew install --cask --adopt monitorcontrol || note_fail "monitorcontrol cask"
 
 echo "== [5/14] runtimes"
