@@ -61,6 +61,9 @@ curl -fsSL https://bun.sh/install | bash || note_fail "bun"
 curl -fsSL https://cursor.com/install | bash || note_fail "cursor-agent"
 
 echo "== [6/14] globals + cursor extensions"
+# matches .bash_profile, which isn't applied until step 8
+export PNPM_HOME="$HOME/Library/pnpm"
+export PATH="$PNPM_HOME/bin:$PATH"
 pnpm add -g sst tsx typescript || note_fail "pnpm globals"
 uv tool install tox || note_fail "uv: tox"
 gh extension list 2>/dev/null | grep -q "github/gh-stack" || gh extension install github/gh-stack || note_fail "gh-stack extension"

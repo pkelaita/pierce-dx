@@ -168,4 +168,4 @@ pwdd() {
 export PATH="$HOME/.local/bin:$PATH"
 
 # Vite+ bin (https://viteplus.dev)
-. "$HOME/.vite-plus/env"
+. "$HOME/.config/vite-plus/env"
