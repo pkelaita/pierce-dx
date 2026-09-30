@@ -319,5 +319,5 @@
   "editor.formatOnSaveMode": "file",
   "window.autoDetectColorScheme": false,
   "markdown-preview-enhanced.enablePreviewZenMode": true,
-  "python.defaultInterpreterPath": "/Users/kelaita/.local/bin/python3.14",
+  "python.defaultInterpreterPath": "$HOME/.local/bin/python3.14",
 }

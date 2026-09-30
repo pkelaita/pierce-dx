@@ -110,9 +110,22 @@ for skill_dir in "$REPO_DIR"/skills/*; do
 done
 
 echo "== [8/14] config files (home/ → \$HOME)"
+# plist/json readers don't expand $HOME, so those files get the placeholder
+# rendered to this machine's home path; shell files keep it literal
+RENDER_DIR=$(mktemp -d)
 while IFS= read -r -d '' src; do
     rel="${src#"$REPO_DIR"/home/}"
     dest="$HOME/$rel"
+    case "$rel" in
+        *.plist|*.json)
+            if grep -qF '$HOME' "$src"; then
+                rendered="$RENDER_DIR/$rel"
+                mkdir -p "$(dirname "$rendered")"
+                perl -pe 's/\$HOME/$ENV{HOME}/g' "$src" > "$rendered"
+                touch -r "$src" "$rendered"
+                src="$rendered"
+            fi ;;
+    esac
     if [ -f "$dest" ] && cmp -s "$src" "$dest"; then
         IDENTICAL=$((IDENTICAL + 1))
     elif [ ! -e "$dest" ]; then
@@ -139,6 +152,7 @@ while IFS= read -r -d '' src; do
         fi
     fi
 done < <(find "$REPO_DIR/home" -type f ! -name '.DS_Store' -print0 | sort -z)
+rm -rf "$RENDER_DIR"
 
 echo "== [9/14] script clones (~/scripts)"
 clone_or_pull() {

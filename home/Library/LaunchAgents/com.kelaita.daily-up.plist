@@ -8,7 +8,7 @@
     <key>ProgramArguments</key>
     <array>
         <string>/bin/bash</string>
-        <string>/Users/kelaita/.daily-up/daily-up.sh</string>
+        <string>$HOME/.daily-up/daily-up.sh</string>
     </array>
 
     <key>StartCalendarInterval</key>
@@ -20,8 +20,8 @@
     </dict>
 
     <key>StandardOutPath</key>
-    <string>/Users/kelaita/.daily-up/launchd-stdout.log</string>
+    <string>$HOME/.daily-up/launchd-stdout.log</string>
     <key>StandardErrorPath</key>
-    <string>/Users/kelaita/.daily-up/launchd-stderr.log</string>
+    <string>$HOME/.daily-up/launchd-stderr.log</string>
 </dict>
 </plist>

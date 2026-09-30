@@ -165,7 +165,7 @@ pwdd() {
 
 
 # uv
-export PATH="/Users/kelaita/.local/bin:$PATH"
+export PATH="$HOME/.local/bin:$PATH"
 
 # Vite+ bin (https://viteplus.dev)
 . "$HOME/.vite-plus/env"
