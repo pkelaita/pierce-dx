@@ -44,7 +44,7 @@ One key does both auth and commit signing. The applied `~/.ssh/config` routes gi
 
 ## Manual installs (GUI apps)
 
-`setup.sh` installs no GUI apps (MonitorControl excepted). Install these yourself:
+`setup.sh` installs no GUI apps (MonitorControl and Macterm excepted). Install these yourself:
 
 - **cmux** — prefer `brew install --cask cmux` so daily-up's `brew upgrade cmux` works (any install method is fine; that update entry then fails harmlessly); keyboard shortcuts are applied via `home/.config/cmux/cmux.json`
 - **T3 Code** — install the stable or nightly DMG; daily-up updates whichever channel is installed. Settings and keybindings sync from `home/.t3/userdata/` via `client-settings.json`, `desktop-settings.json`, `settings.json`, and `keybindings.json`. Credentials and session data stay machine-local.
