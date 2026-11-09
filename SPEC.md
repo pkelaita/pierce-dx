@@ -4,7 +4,7 @@
 
 ## Problem Statement
 
-Pierce has spent months customizing his dev experience on this Mac — shell config, custom scripts, terminal theme, editor settings, keyboard remaps, AI-agent tooling, package-manager globals, and a daily auto-update system. This state lives scattered across dozens of dotfiles and install locations, with no reliable way to reproduce it on a new machine or keep multiple machines in sync. A previous attempt (`csync()` → `~/configrepo` → github.com/pkelaita/configs) was a partial, manual, one-way copy of 7 files that he forgot existed. Meanwhile, the live config has accumulated years of dead cruft (stale PATHs from old usernames, aliases for uninstalled tools, an abandoned ghostty tab-title project).
+Pierce has spent months customizing his dev experience on this Mac — shell config, custom scripts, terminal theme, editor settings, AI-agent tooling, package-manager globals, and a daily auto-update system. This state lives scattered across dozens of dotfiles and install locations, with no reliable way to reproduce it on a new machine or keep multiple machines in sync. A previous attempt (`csync()` → `~/configrepo` → github.com/pkelaita/configs) was a partial, manual, one-way copy of 7 files that he forgot existed. Meanwhile, the live config has accumulated years of dead cruft (stale PATHs from old usernames, aliases for uninstalled tools, an abandoned ghostty tab-title project).
 
 ## Solution
 
@@ -28,11 +28,10 @@ A private GitHub repo, `pkelaita/pierce-dx`, checked out at the fixed path `~/pi
 8. As Pierce, I want my curated CLI set (fd, gh, git-lfs, go-task, pnpm, uv, awscli, ripgrep, htop, tree, docker) installed via brew, so that my daily drivers are present.
 9. As Pierce, I want Claude Code and Codex installed by setup (they are CLI tools despite shipping as brew casks), so that the "no GUI casks" rule doesn't leave me without my AI CLIs.
 10. As Pierce, I want my agent skills reinstalled via the vercel `skills` CLI (global, symlinked, all agents via `-a '*'`), so that I always get the latest skill versions rather than stale copies.
-11. As Pierce, I want my four `~/scripts` git clones (awsp, fav, cc-account-switcher, zen-remap-ctrl-backtick) freshly cloned (or pulled if present), so that repo-backed tools stay canonical — including my own repos, which count as third-party.
+11. As Pierce, I want my three `~/scripts` git clones (awsp, fav, cc-account-switcher) freshly cloned (or pulled if present), so that repo-backed tools stay canonical — including my own repos, which count as third-party.
 12. As Pierce, I want vite-plus, bun, cursor-agent, `op` (1Password CLI), pnpm globals (sst, tsx, typescript), uv tools (pdfsplitter, tox), and the gh-stack extension installed, so that my runtimes and globals are complete.
 13. As Pierce, I want my Cursor settings, keybindings, and full extension list applied (extensions installed latest-by-id via the cursor CLI, continuing past failures), so that my editor feels identical.
 14. As Pierce, I want my Ghostty config and custom theme (Pierce-Special-1) plus my `t` theme-switcher script in place, so that my terminal looks and behaves the same.
-15. As Pierce, I want my karabiner.json applied wholesale, so that my keyboard customizations (Zen ctrl+` rule, fn keys) work.
 16. As Pierce, I want MonitorControl installed (cask) and its preferences applied, so that my monitor setup — which I love — survives migration.
 17. As Pierce, I want my daily-up auto-updater (script + updates.conf + 9:00 AM LaunchAgent) installed and loaded, so that my AI CLIs and skills stay current automatically.
 18. As Pierce, I want setup to *check* for a usable git SSH key and point me at README docs if absent (never generate or upload keys), so that key management stays deliberate and manual.
@@ -72,7 +71,6 @@ A private GitHub repo, `pkelaita/pierce-dx`, checked out at the fixed path `~/pi
 | `home/.config/ghostty/themes/Pierce-Special-1` | same | custom theme |
 | `home/.config/ghostty/themes/t` | same | Pierce's theme-switcher script — keep, he uses it |
 | `home/.config/git/ignore` | `~/.config/git/ignore` | global gitignore |
-| `home/.config/karabiner/karabiner.json` | same | applied artifact for keyboard remaps |
 | `home/.claude/settings.json` | `~/.claude/settings.json` | as-is incl. ARS plugin + marketplace entries (drives plugin reinstall) |
 | `home/.codex/config.toml` | `~/.codex/config.toml` | TRIMMED: keep model/effort/personality/approval_policy/sandbox_mode/plan_mode_reasoning_effort/service_tier; strip all `[projects.*]` and the `notify` line |
 | `home/.daily-up/daily-up.sh` | same | note: contains hardcoded `/Users/kelaita` in PATH export — fine (same username assumed), or generalize with `$HOME` |
@@ -97,7 +95,6 @@ MonitorControl prefs: export this machine's defaults domain (find exact bundle i
   - `git@github.com:pkelaita/awsp.git` → `~/scripts/awsp`
   - `git@github.com:pkelaita/fav.git` → `~/scripts/fav`
   - `git@github.com:ming86/cc-account-switcher.git` → `~/scripts/cc-account-switcher`
-  - `git@github.com:pkelaita/Zen-Reverse-Tab-Switch-With-Ctrl-Backtick.git` → `~/scripts/zen-remap-ctrl-backtick` (clone only; do NOT run its installer — the vendored karabiner.json is the applied artifact)
 - Skills: reinstall the current global set. Verified flags: `skills add <github-repo> -g -y -a '*' --skill <name,...>`. At impl time, enumerate the exact repo→skill pairs from this machine (`pnpm dlx skills ls` or `~/.agents/skills` provenance). Current global set (16): astro, convex-migration-helper, create-agentsmd, domain-modeling, find-skills, frontend-design, gh-stack, grill-with-docs, grilling, polish, shadcn, simple-web-design, stop-slop, to-spec, turborepo, vercel-react-best-practices. EXCLUDE openlattice-sourced skills (add-connector, add-enricher, network-search, person-context) — those are project symlinks, not skills-CLI installs. Invoke the CLI as `pnpm dlx skills` (matches daily-up).
   - The repo's own `dx` skill: install via skills CLI from the local repo if supported (verify `skills add` with a local path); fallback: symlink/copy `skills/dx` into `~/.agents/skills/dx` and into each agent's skills dir the same way the CLI lays out its symlinks.
 - Brew formulae (exact list): `fd gh git-lfs go-task pnpm uv awscli ripgrep htop tree docker`.
@@ -115,7 +112,7 @@ MonitorControl prefs: export this machine's defaults domain (find exact bundle i
 
 ### README.md
 
-Human-readable, not verbose. Sections: what this is + annotated repo tree; **Bootstrap** (fresh machine): 1) install brew, 2) `brew install gh && gh auth login`, 3) clone pierce-dx (HTTPS via gh credential helper works pre-SSH), 4) `./setup.sh`; **SSH key setup** (the doc setup.sh points to): `ssh-keygen -t ed25519`, `gh ssh-key add` twice (auth + `--type signing`), note that allowed_signers regenerates via setup; **Manual installs** (GUI apps): cmux (recommend `brew install --cask cmux` so daily-up's `brew upgrade cmux` works; other install methods fine — the daily-up entry then fails harmlessly), Ghostty, Cursor, Sublime Text, Karabiner-Elements (required for the applied karabiner.json), Raycast (settings: manual export/import, encrypted DB), Maccy (configure in-app), Zen, 1Password, CodexBar, supacode; **Sync usage**: the four agentic workflows one line each + "or run setup.sh / diff.sh yourself"; note that `github.com/pkelaita/configs` is deprecated by this repo (archive manually if desired).
+Human-readable, not verbose. Sections: what this is + annotated repo tree; **Bootstrap** (fresh machine): 1) install brew, 2) `brew install gh && gh auth login`, 3) clone pierce-dx (HTTPS via gh credential helper works pre-SSH), 4) `./setup.sh`; **SSH key setup** (the doc setup.sh points to): `ssh-keygen -t ed25519`, `gh ssh-key add` twice (auth + `--type signing`), note that allowed_signers regenerates via setup; **Manual installs** (GUI apps): cmux (recommend `brew install --cask cmux` so daily-up's `brew upgrade cmux` works; other install methods fine — the daily-up entry then fails harmlessly), Ghostty, Cursor, Sublime Text, Raycast (settings: manual export/import, encrypted DB), Maccy (configure in-app), Zen, 1Password, CodexBar, supacode; **Sync usage**: the four agentic workflows one line each + "or run setup.sh / diff.sh yourself"; note that `github.com/pkelaita/configs` is deprecated by this repo (archive manually if desired).
 
 ### This-machine cleanup ledger (execute during implementation, after vendoring cleaned copies)
 

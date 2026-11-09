@@ -49,7 +49,6 @@ One key does both auth and commit signing. The applied `~/.ssh/config` routes gi
 - **cmux** — prefer `brew install --cask cmux` so daily-up's `brew upgrade cmux` works (any install method is fine; that update entry then fails harmlessly); keyboard shortcuts are applied via `home/.config/cmux/cmux.json`
 - **T3 Code** — install the stable or nightly DMG; daily-up updates whichever channel is installed. Settings and keybindings sync from `home/.t3/userdata/` via `client-settings.json`, `desktop-settings.json`, `settings.json`, and `keybindings.json`. Credentials and session data stay machine-local.
 - **Ghostty**, **Cursor**, **Sublime Text** — configs for all three are applied by setup
-- **Karabiner-Elements** — required for the applied `karabiner.json` remaps
 - **Rectangle Pro** — shortcuts live in `rectangle-pro-shortcuts.conf`; run `./scripts/apply-rectangle-pro-shortcuts.sh` after editing (it restarts Rectangle Pro if needed)
 - **Zen**, **1Password**, **CodexBar**, **supacode**
 - **Raycast** — settings don't sync (encrypted); export/import manually

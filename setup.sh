@@ -177,8 +177,6 @@ ssh -o BatchMode=yes -o StrictHostKeyChecking=accept-new -T git@github.com >/dev
 clone_or_pull git@github.com:pkelaita/awsp.git "$HOME/scripts/awsp"
 clone_or_pull git@github.com:pkelaita/fav.git "$HOME/scripts/fav"
 clone_or_pull git@github.com:ming86/cc-account-switcher.git "$HOME/scripts/cc-account-switcher"
-# clone only — the vendored karabiner.json is the applied artifact; never run its installer
-clone_or_pull git@github.com:pkelaita/Zen-Reverse-Tab-Switch-With-Ctrl-Backtick.git "$HOME/scripts/zen-remap-ctrl-backtick"
 
 echo "== [10/14] git allowed_signers"
 if [ -f "$HOME/.ssh/id_ed25519.pub" ]; then
