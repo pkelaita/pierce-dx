@@ -25,5 +25,5 @@ Single source of truth for Pierce's dev experience, checked out at `~/pierce-dx`
 - Track and sync T3 Code's `.t3/userdata/{client-settings,desktop-settings,settings,keybindings}.json` through `home/`. Check these files during capture, apply, and drift review. Keep credentials, tokens, secrets, databases, sessions, logs, attachments, caches, and runtime metadata machine-local; inspect settings for credentials and machine paths before capture.
 - `~/.aws/config` is machine-local and never vendored — the repo contains no AWS config. Never capture `.codex/config.toml` into the repo — machine-local; `diff.sh` ignores it.
 - Nothing from `~/projects` or work artifacts. Zero openlattice traces.
-- No GUI app installs except MonitorControl.
+- No GUI app installs except MonitorControl and Macterm.
 - Rejected — do not re-propose: gcloud, postgres, worktrunk, zed, Maccy/Raycast settings, general macOS defaults, GUI casks.

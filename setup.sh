@@ -51,11 +51,12 @@ else
     note_fail "homebrew bash missing at $BREW_BASH"
 fi
 
-echo "== [4/15] brew casks (CLI tools + MonitorControl)"
+echo "== [4/15] brew casks (CLI tools + MonitorControl + Macterm)"
 brew install --cask claude-code@latest codex 1password-cli || note_fail "brew casks"
 # Gatekeeper can't verify codex's notarization and offers to trash it on every run
 xattr -dr com.apple.quarantine "$(brew --prefix)/Caskroom/codex" 2>/dev/null
 brew install --cask --adopt monitorcontrol || note_fail "monitorcontrol cask"
+brew install --cask --adopt thdxg/tap/macterm || note_fail "macterm cask"
 
 echo "== [5/15] runtimes"
 curl -fsSL https://viteplus.dev/install.sh | sh || note_fail "vite-plus"
@@ -193,8 +194,17 @@ echo "== [12/15] Rectangle Pro shortcuts"
 "$REPO_DIR/scripts/apply-rectangle-pro-shortcuts.sh" || note_fail "Rectangle Pro shortcuts"
 
 echo "== [13/15] Macterm preferences"
-# one key only: the rest of the domain is machine state (window frames, recents)
-defaults write com.thdxg.macterm macterm.hotkey.toggle_quick_terminal disabled || note_fail "Macterm Quick Terminal hotkey"
+# hotkeys only: the rest of the domain is machine state (window frames, recents)
+while read -r action chord; do
+    defaults write com.thdxg.macterm "macterm.hotkey.$action" "$chord" || note_fail "Macterm hotkey: $action"
+done <<'EOF'
+toggle_quick_terminal disabled
+next_project cmd+down
+previous_project cmd+up
+next_global_tab cmd+opt+down
+previous_global_tab cmd+opt+up
+rename_project cmd+shift+r
+EOF
 
 echo "== [14/15] daily-up LaunchAgent"
 launchctl bootout "gui/$(id -u)" "$HOME/Library/LaunchAgents/com.kelaita.daily-up.plist" 2>/dev/null
