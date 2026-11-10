@@ -28,7 +28,7 @@ note_fail() {
   $1"
 }
 
-echo "== [1/14] preflight"
+echo "== [1/15] preflight"
 xcode-select -p >/dev/null 2>&1 || { echo "Xcode Command Line Tools missing — run: xcode-select --install" >&2; exit 1; }
 command -v brew >/dev/null 2>&1 || { echo "Homebrew missing — see README.md (Bootstrap)" >&2; exit 1; }
 if [ ! -f "$HOME/.ssh/id_ed25519" ] || \
@@ -37,10 +37,10 @@ if [ ! -f "$HOME/.ssh/id_ed25519" ] || \
     echo "No working GitHub SSH key — see README.md (SSH key setup). Continuing; git clones may fail."
 fi
 
-echo "== [2/14] brew formulae"
+echo "== [2/15] brew formulae"
 brew install bash fd gh git-lfs go-task pnpm uv awscli ripgrep htop tree docker || note_fail "brew formulae"
 
-echo "== [3/14] login shell (latest bash, not the system 3.2)"
+echo "== [3/15] login shell (latest bash, not the system 3.2)"
 BREW_BASH="$(brew --prefix)/bin/bash"
 if [ -x "$BREW_BASH" ]; then
     grep -qxF "$BREW_BASH" /etc/shells || echo "$BREW_BASH" | sudo tee -a /etc/shells >/dev/null || note_fail "/etc/shells: $BREW_BASH"
@@ -51,18 +51,18 @@ else
     note_fail "homebrew bash missing at $BREW_BASH"
 fi
 
-echo "== [4/14] brew casks (CLI tools + MonitorControl)"
+echo "== [4/15] brew casks (CLI tools + MonitorControl)"
 brew install --cask claude-code@latest codex 1password-cli || note_fail "brew casks"
 # Gatekeeper can't verify codex's notarization and offers to trash it on every run
 xattr -dr com.apple.quarantine "$(brew --prefix)/Caskroom/codex" 2>/dev/null
 brew install --cask --adopt monitorcontrol || note_fail "monitorcontrol cask"
 
-echo "== [5/14] runtimes"
+echo "== [5/15] runtimes"
 curl -fsSL https://viteplus.dev/install.sh | sh || note_fail "vite-plus"
 curl -fsSL https://bun.sh/install | bash || note_fail "bun"
 curl -fsSL https://cursor.com/install | bash || note_fail "cursor-agent"
 
-echo "== [6/14] globals + cursor extensions"
+echo "== [6/15] globals + cursor extensions"
 # matches .bash_profile, which isn't applied until step 8
 export PNPM_HOME="$HOME/Library/pnpm"
 export PATH="$PNPM_HOME/bin:$PATH"
@@ -80,7 +80,7 @@ else
     note_fail "cursor CLI not found — install extensions from cursor-extensions.txt manually"
 fi
 
-echo "== [7/14] agent skills"
+echo "== [7/15] agent skills"
 # repo → skill names, from this machine's ~/.agents/.skill-lock.json
 # the skills CLI matches --skill values literally, so comma lists must be split
 # into one --skill flag per name
@@ -116,7 +116,7 @@ for skill_dir in "$REPO_DIR"/skills/*; do
     ln -sfn "$HOME/.agents/skills/$skill_name" "$HOME/.cursor/skills/$skill_name"
 done
 
-echo "== [8/14] config files (home/ → \$HOME)"
+echo "== [8/15] config files (home/ → \$HOME)"
 # plist/json readers don't expand $HOME, so those files get the placeholder
 # rendered to this machine's home path; shell files keep it literal
 RENDER_DIR=$(mktemp -d)
@@ -161,7 +161,7 @@ while IFS= read -r -d '' src; do
 done < <(find "$REPO_DIR/home" -type f ! -name '.DS_Store' -print0 | sort -z)
 rm -rf "$RENDER_DIR"
 
-echo "== [9/14] script clones (~/scripts)"
+echo "== [9/15] script clones (~/scripts)"
 clone_or_pull() {
     local url=$1 dest=$2
     if [ -d "$dest/.git" ]; then
@@ -178,7 +178,7 @@ clone_or_pull git@github.com:pkelaita/awsp.git "$HOME/scripts/awsp"
 clone_or_pull git@github.com:pkelaita/fav.git "$HOME/scripts/fav"
 clone_or_pull git@github.com:ming86/cc-account-switcher.git "$HOME/scripts/cc-account-switcher"
 
-echo "== [10/14] git allowed_signers"
+echo "== [10/15] git allowed_signers"
 if [ -f "$HOME/.ssh/id_ed25519.pub" ]; then
     mkdir -p "$HOME/.config/git"
     printf 'pierce@kelaita.com %s\n' "$(cat "$HOME/.ssh/id_ed25519.pub")" > "$HOME/.config/git/allowed_signers"
@@ -186,17 +186,21 @@ else
     echo "no ~/.ssh/id_ed25519.pub — skipping allowed_signers (see README.md, SSH key setup)"
 fi
 
-echo "== [11/14] MonitorControl preferences"
+echo "== [11/15] MonitorControl preferences"
 defaults import app.monitorcontrol.MonitorControl "$REPO_DIR/monitorcontrol.plist" || note_fail "MonitorControl prefs"
 
-echo "== [12/14] Rectangle Pro shortcuts"
+echo "== [12/15] Rectangle Pro shortcuts"
 "$REPO_DIR/scripts/apply-rectangle-pro-shortcuts.sh" || note_fail "Rectangle Pro shortcuts"
 
-echo "== [13/14] daily-up LaunchAgent"
+echo "== [13/15] Macterm preferences"
+# one key only: the rest of the domain is machine state (window frames, recents)
+defaults write com.thdxg.macterm macterm.hotkey.toggle_quick_terminal disabled || note_fail "Macterm Quick Terminal hotkey"
+
+echo "== [14/15] daily-up LaunchAgent"
 launchctl bootout "gui/$(id -u)" "$HOME/Library/LaunchAgents/com.kelaita.daily-up.plist" 2>/dev/null
 launchctl bootstrap "gui/$(id -u)" "$HOME/Library/LaunchAgents/com.kelaita.daily-up.plist" || note_fail "daily-up LaunchAgent"
 
-echo "== [14/14] summary"
+echo "== [15/15] summary"
 echo "config files identical (untouched): $IDENTICAL"
 [ -n "$INSTALLED" ] && echo "installed:$INSTALLED"
 [ -n "$OVERWRITTEN" ] && echo "overwritten (backups in $BACKUP_DIR):$OVERWRITTEN"
