@@ -50,7 +50,7 @@ One key does both auth and commit signing. The applied `~/.ssh/config` routes gi
 - **T3 Code** — install the stable or nightly DMG; daily-up updates whichever channel is installed. Settings and keybindings sync from `home/.t3/userdata/` via `client-settings.json`, `desktop-settings.json`, `settings.json`, and `keybindings.json`. Credentials and session data stay machine-local.
 - **Ghostty**, **Cursor**, **Sublime Text** — configs for all three are applied by setup
 - **Rectangle Pro** — shortcuts live in `rectangle-pro-shortcuts.conf`; run `./scripts/apply-rectangle-pro-shortcuts.sh` after editing (it restarts Rectangle Pro if needed)
-- **Zen**, **1Password**, **CodexBar**, **supacode**
+- **Zen**, **1Password**, **supacode**
 - **Raycast** — settings don't sync (encrypted); export/import manually
 - **Maccy** — configure in-app
 
